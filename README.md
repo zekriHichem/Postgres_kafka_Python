@@ -10,7 +10,7 @@ Pour ce tuto, on va utiliser **docker**.
 ```bat
 Your local machine> sudo git clone .....
 ```
-## Etape 02 : *Crée *un network docker
+## Etape 02 : *Crée* un network docker
 Cela permit la communication entre les diffï¿½rentes contenaire docker. 
 ```bat
 Your local machine> sudo docker network create mynetwork
