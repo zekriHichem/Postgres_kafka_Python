@@ -1,28 +1,28 @@
 # Postgres Kafka Python code 
 
 Dans cette patrie, on va depoloyer un pipline.
-Ce dernier prend les donnï¿½es d'un bdd postgres, puis
+Ce dernier prend les donnÃ©es d'un bdd postgres, puis
 les mettre dans un Kafka topic,
-puis les consomï¿½ par un programme python flask . 
+puis les consomÃ© par un programme python flask . 
 
 Pour ce tuto, on va utiliser **docker**.
-## Etape 01 : *Télécharger* le repo
+## Etape 01 : *TÃ©lÃ©charger* le repo
 ```bat
 Your local machine> sudo git clone .....
 ```
-## Etape 02 : *Crée* un network docker
-Cela permit la communication entre les diffï¿½rentes contenaire docker. 
+## Etape 02 : *CrÃ©e* un network docker
+Cela permit la communication entre les diffÃ©rentes contenaire docker. 
 ```bat
 Your local machine> sudo docker network create mynetwork
 ```
-## Etape 03 : Lancer votre Base de donnï¿½es Postgres
-Si vous n'aviez pas de bdd postgres *déja* *déployer*. vous devez *créer* une :
+## Etape 03 : Lancer votre Base de donnÃ©es Postgres
+Si vous n'aviez pas de bdd postgres *dÃ©ja* *dÃ©ployer*. vous devez *crÃ©er* une :
 ```bat
 Your local machine> sudo docker run -d --name postgres -p 5432:5432 -e POSTGRES_USER=start_data_engineer -e POSTGRES_PASSWORD=password --network mynetwork debezium/postgres
 ```
-Puis, il faut *crées* une table et changer quelques configuration dans votre base. Pour cela il faut : 
+Puis, il faut *crÃ©es* une table et changer quelques configuration dans votre base. Pour cela il faut : 
 
-- Renter dans le contenaire de la base de *données* 
+- Renter dans le contenaire de la base de *donnÃ©es* 
 ```bat
 Your local machine> sudo docker exec -it postgres bash
 ```
@@ -59,7 +59,7 @@ Dans cette partie, nous alons lancer notre Kafka. Pour cela, nous avons perparer
 ```bat
 your local machine repo path>docker-compose up -d
 ```
-*Aprés* cette *étape*, nous avons Kafka lancer sur http://127.0.0.1:29092.
+*AprÃ©s* cette *Ã©tape*, nous avons Kafka lancer sur http://127.0.0.1:29092.
 
 > copyright : https://www.baeldung.com/ops/kafka-docker-setup
 > copyright : https://www.confluent.io/
@@ -69,7 +69,7 @@ Nous allons utiser le connecteur de debezium.
 ```bat
 Your local machine> sudo docker run -d --name connect -p 8083:8083 --link kafka:kafka  --link postgres:postgres -e BOOTSTRAP_SERVERS=kafka:9092  -e GROUP_ID=sde_group -e CONFIG_STORAGE_TOPIC=sde_storage_topic  -e OFFSET_STORAGE_TOPIC=sde_offset_topic --network mynetwork debezium/connect:1.1
 ```
-Puis, il faut le connecter à la bdd postgres et le serveur Kafka par l'instruction suivante: 
+Puis, il faut le connecter Ã  la bdd postgres et le serveur Kafka par l'instruction suivante: 
 ```bat
 Your local machine> sudo curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json"  localhost:8083/connectors/ -d '{"name": "sde-connector", "config": {"connector.class": "io.debezium.connector.postgresql.PostgresConnector", "database.hostname": "postgres", "database.port": "5432", "database.user": "start_data_engineer", "database.password": "password", "database.dbname" : "start_data_engineer", "database.server.name": "bankserver1", "table.whitelist": "bank.holding"}}'
 ```
@@ -89,8 +89,8 @@ Server: Jetty(9.4.20.v20190813)
 > copyright : https://www.startdataengineering.com/post/change-data-capture-using-debezium-kafka-and-pg/
 > copyright : https://debezium.io/
 
-## Etape 06: *Crée* un consomateur Python
-Pour cette *étape*, il faut installer la lib kafka-python sur python . 
+## Etape 06: *CrÃ©e* un consomateur Python
+Pour cette *Ã©tape*, il faut installer la lib kafka-python sur python . 
 ```bat
 Your local machine>  pip install kafka-python
 ```
